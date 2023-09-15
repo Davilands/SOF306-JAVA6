@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <script src="js/jquery.min.js"></script> -->
+	<script src="js/angular.min.js"></script>
+	
+	<title>REST API with </title>
+</head>
+
+<body ng-app="myapp" >
+	<div class="app" ng-controller="myctrl">
+
+		<h3 >Error Processing</h3>
+
+
+	</div>
+
+
+	</div>
+
+	<script>
+		var app = angular.module("myapp", []).controller("myctrl", function ($scope, $http) {
+			let url = 'http://localhost:8080/rest/categories'
+			$http.get(url).then(res => {
+				console.log("Success", res);
+				alert("success load all: Staus " + res.status);
+			}).catch(err => {
+				console.log("error", err);
+			})
+
+			let urlOne = 'http://localhost:8080/rest/categories/70000'
+			$http.get(urlOne).then(res => {
+				console.log("Success", res);
+				alert("success");
+			}).catch(err => {
+				console.log("error: Staus " + res.status);
+				alert("error: Staus " + res.status)
+			})
+
+		});
+
+
+	</script>
+</body>
+
+</html>

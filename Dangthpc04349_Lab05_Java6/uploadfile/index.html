@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <script src="js/jquery.min.js"></script> -->
+	<script src="js/angular.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js"></script>
+	<title>REST API with </title>
+</head>
+
+<body ng-app="myapp" style="background-color: #222527fe; padding: 50px;">
+	<div class="app" ng-controller="myctrl">
+
+		<h3 style="color: aliceblue;">Upload file </h3>
+
+		<div class="input-group mb-3">
+			<div class="custom-file">
+				<input type="file" accept="image/**" multiple class="custom-file-input"
+					onchange="angular.element(this).scope().upload(this.files)">
+				<label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+			</div>
+			<br>
+
+		</div>
+		<label ng-repeat="filename in filenames" title="Double click to delete">
+			<img ng-src="{{url(filename)}}" ng-dblclick="delete(filename)" alt="">
+		</label>
+	</div>
+
+
+	</div>
+
+	<script>
+		var app = angular.module("myapp", []).controller("myctrl", function ($scope, $http) {
+			let url = `http://localhost:8080/rest/files/images`;
+			$scope.url = function (filename) {
+				return `${url}/${filename}`;
+			}
+			$scope.list = function () {
+				$http.get(url).then(res => {
+					$scope.filenames = res.data;
+					console.log("Success", res);
+				}).catch(err => {
+					console.log("error: Staus " + res.status);
+					alert("error: Staus " + res.status)
+				})
+			}
+			$scope.upload = function (files) {
+				let form = new FormData();
+				for (let i = 0; i < files.length; i++) {
+					form.append("files", files[i]);
+				}
+				$http.post(url, form, {
+					transformRequest: angular.indentity,
+					headers: { 'Content-Type': undefined }
+				}).then(res => {
+					$scope.filenames.push(...res.data);
+					console.log("Success", res);
+				}).catch(err => {
+					console.log("error: Staus " + res.status);
+					alert("error: Staus " + res.status)
+				})
+
+			}
+			$scope.delete = function (filename) {
+				$http.delete(`${url}/:${filename}`).then(res => {
+					let i = $scope.filenames.findIndex(name => name == filename);
+					$scope.filenames.splice(i, 1);
+					console.log("Success", res);
+				}).catch(err => {
+					console.log("error: Staus " + res.status);
+					alert("error: Staus " + res.status)
+				})
+			}
+
+			$scope.list();
+		});
+
+
+	</script>
+</body>
+
+</html>

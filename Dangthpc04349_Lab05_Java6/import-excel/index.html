@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <script src="js/jquery.min.js"></script> -->
+	<script src="js/angular.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js"></script>
+	<title>REST API with </title>
+</head>
+
+<body ng-app="myapp" style="background-color: #222527fe; padding: 50px;">
+	<div class="app" ng-controller="myctrl">
+
+		<h3 style="color: aliceblue;">Import file excel</h3>
+
+		<div class="input-group mb-3">
+			<div class="custom-file">
+				<input type="file" class="custom-file-input" onchange="angular.element(this).scope().import(this.files)">
+				<label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+			</div>
+			<div class="input-group-append">
+				<span class="input-group-text text-primary" id="">Upload</span>
+			</div>
+		</div>
+
+	</div>
+
+
+	</div>
+
+	<script>
+		var app = angular.module("myapp", []).controller("myctrl", function ($scope, $http) {
+			$scope.import = function (files) {
+				let reader = new FileReader();
+				reader.onloadend = async () => { // => reader.result
+					let workbook = new ExcelJS.Workbook();
+					await workbook.xlsx.load(reader.result);
+					const worksheet = workbook.getWorksheet('Sheet1');
+					worksheet.eachRow((row, index) => {
+						if (index > 1) {
+							let student = {
+								email: row.getCell(1).value,
+								fullname: row.getCell(2).value,
+								marks: +row.getCell(3).value,
+								gender: true && row.getCell(4).value,
+								country: row.getCell(5).value,
+							}
+							let url = 'http://localhost:8080/rest/students';
+							$http.post(url, student).then(res => {
+								console.log("success", res.data);
+								alert("Successfully")
+							}).catch(err => {
+								console.log("Error", err);
+							})
+						}
+					})
+				}
+				reader.readAsArrayBuffer(files[0]);
+			}
+
+		});
+
+
+	</script>
+</body>
+
+</html>

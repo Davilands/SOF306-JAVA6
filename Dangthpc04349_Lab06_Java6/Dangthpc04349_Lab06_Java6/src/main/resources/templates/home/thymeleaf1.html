@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+	<title>lab6</title>
+</head>
+
+<body >
+	<nav th:replace="~{/home/_menu :: nav}"></nav>
+	<hr>
+	<h2 th:text="${message}"></h2>
+	<hr>
+	<h3 th:unless="${#request.remoteUser}">
+		Chưa đăng nhập
+	</h3>
+	<ul th:if="${#request.remoteUser}">
+		<li th:if="${#request.isUserInRole('ADMIN')}">ADMIN</li>
+		<li th:if="${#request.isUserInRole('USER')}">USER</li>
+		<li th:if="${#request.isUserInRole('GUEST')}">GUEST</li>
+	</ul>
+</body>
+
+</html>

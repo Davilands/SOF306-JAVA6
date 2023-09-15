@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<body>
+	<h3>Restfull API với AngularJS và Firebase</h3>
+
+
+	<form th:object="${form}" method="post">
+
+		<input placeholder="Email address"	th:field="*{email}"> <br>
+		
+		<input placeholder="Password"	th:field="*{fullname}"> <br>
+		
+		<input placeholder="Marks" th:field="*{marks}"> <br>
+		<input type="radio" th:field="*{gender}" value="true"> <br>
+		<input	type="radio" th:field="*{gender}" value="false"> <br>
+		<select	th:field="*{country}">
+			<option value="VN">Viet Nam</option>
+			<option value="US">United States</option>
+		</select><br>
+		<button th:formaction="@{/student/create}">Create</button>
+		<button th:formaction="@{|/student/update/${key}|}">Update</button>
+		<button th:formaction="@{|/student/delete/${key}|}">Delete</button>
+		<button th:formaction="@{/student/index}">Reset</button>
+	</form>
+
+
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>Email</th>
+					<th>Fullname</th>
+					<th>Marks</th>
+					<th>Gender</th>
+					<th>Country</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="entry:${item}" th:object="${entry.value}">
+					<td>{{$index}}</td>
+					<td>[[*{email}]]</td>
+					<td>[[*{fulllname}]]</td>
+
+					<td>[[*{marks}]]</td>
+					<td>[[*{gender}]]</td>
+					<td>[[*{country}]]</td>
+					<td><a th:href="@{|/student/edit/${entry.key}|}">Edit</a> <a
+						th:href="@{|/student/delete/${entry.key}|}">Delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div> 
+
+
+</body>
+</html>

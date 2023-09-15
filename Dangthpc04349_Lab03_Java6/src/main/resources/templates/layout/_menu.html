@@ -1,0 +1,36 @@
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org"
+	th:fragment="dynamic(view)">
+<head>
+<meta charset="UTF-8">
+<title>Tổ chức layout</title>
+</head>
+<body>
+	<nav th:fragment="navbar">
+	<hr>
+	<a th:href="@{/home/index}" th:text="#{nav.home}"></a>::
+	<a th:href="@{/home/about}" th:text="#{nav.about}">About Us</a>::
+	<!-- <a th:href="@{/student/form}" th:text="#{nav.student}">Student</a>:: -->
+	<!-- <a th:href="@{/validation/form}" th:text="#{nav.validate}">Validate</a>:: -->
+	[<a href="?lang=vi" >Tiếng Việt</a>]
+	[<a href="?lang=en" >English</a>]
+	<hr>
+	</nav>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	<script>
+		$(function() {
+			$("a[href*=lang]").click(function(){
+				$.ajax({
+					url: "/layout/home" + $(this).attr("href")
+				}).then(resp => {
+					location.reload();
+				});
+				return false;
+			});
+		})
+	
+	</script>
+</body>
+</html>

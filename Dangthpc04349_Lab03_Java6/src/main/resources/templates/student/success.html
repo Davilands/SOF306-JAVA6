@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" th:replace="~{/layout/layout :: dynamic(~{::body})}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>Result</h3>
+	<ul th:object="${sv}">
+		<li>Email: <i th:text="*{email}"></i></li>
+		<li>Fullname: <i th:text="*{fullname}"></i></li>
+		<li>Marks: <i th:text="*{marks}"></i></li>
+		<li>Gender: <i th:text="*{gender} ? 'Male' : 'Female'"></i></li>
+		<li>Country: <i th:text="*{country}"></i></li>
+	</ul>
+</body>
+</html>

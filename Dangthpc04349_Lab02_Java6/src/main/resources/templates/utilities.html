@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>UTILITY OBJECT</h3>
+<b>TỔNG HỢP</b>
+<ul>
+<li>Today: <i th:text="${#dates.format(now,'EEE,dd-MM-yyyy')}"></i></li>
+<li>Number of students: <i th:text="${#lists.size(dssv)}"></i></li>
+</ul>
+<b>DANH SÁCH</b>
+<ul th:each="sv:${dssv}" th:object="${sv}">
+<li>
+Name : <b th:text="*{#strings.capitalizeWords(name)}"></b>
+</li>
+<li>
+Marks : <b th:text="*{#numbers.formatDecimal(marks,0,'COMMA',2,'POINT')}"></b>
+</li>
+<li>
+Number of subjects : <b th:text="*{#arrays.length(subjects)}"></b>
+
+</li>
+</ul>
+</body>
+</html>

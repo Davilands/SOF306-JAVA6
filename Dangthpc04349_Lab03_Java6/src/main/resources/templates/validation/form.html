@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>Validation</h3>
+	<div th:text= ${message}></div>
+	<form action="/validation/validate" method="post" th:object="${sv}">
+		<input th:field="*{email}" placeholder="email Address?"> 
+		<i th:errors=*{email}></i>
+		</br>
+		<input th:field="*{fullname}" placeholder="Full name?">
+		<i th:errors=*{fullname}></i>
+		 </br>
+		<input th:field="*{marks}" placeholder="marks?">
+		<i th:errors=*{marks}></i>
+		 </br>
+		<input th:field="*{gender}" th:value="true" type="radio"> Male </br>
+		<input th:field="*{gender}" th:value="false" type="radio"> FeMale </br>
+		<i th:errors=*{gender}></i>
+		
+		<select th:field="*{country}">
+			<option value=""> Nationaly? </option>
+			<option th:each="entry: ${countries}" th:value="${entry.key}"> [(${entry.value})] </option>
+			<!-- <option value="VN"> Việt Nam? </option>
+			<option value="US"> US? </option> -->
+		</select>
+		
+		<hr>
+		
+		<button>Save</button>
+	</form>
+</body>
+</html>
